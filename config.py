@@ -9,9 +9,9 @@ DATA_DIR = "dataset/"
 NUM_WORKERS = 4
 
 # Compute related
-ACCELERATOR = "cpu"
+ACCELERATOR = "auto"  # GPU on Colab, CPU on this Mac
 DEVICES = 1
-PRECISION = 16
+PRECISION = "16-mixed"  # same as 16 (the old name); falls back to bf16 on CPU
 
 # Transfer learning
 # Experiments to run, in this order (see train.py):

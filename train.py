@@ -24,7 +24,7 @@ def run(mode):
     if mode in ["linear_probe", "finetune"]:
         # Transfer: start from the encoder learned on MNIST in step 1.
         # The MNIST head is not loaded -> the new head starts from random weights.
-        model.encoder.load_state_dict(torch.load(config.ENCODER_PATH))
+        model.encoder.load_state_dict(torch.load(config.ENCODER_PATH, map_location="cpu"))  # works for files saved on GPU or CPU
 
     if mode == "pretrain":
         dataset_name, n_train, num_epochs = config.SOURCE_DATASET, None, config.NUM_EPOCHS

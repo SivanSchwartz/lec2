@@ -26,8 +26,9 @@ class NN(pl.LightningModule):
         # Head h_phi: a linear classifier for the current task
         self.head = nn.Linear(num_features, num_classes)
 
-        # Linear probing: the encoder is not trained, only the head
+        # Linear probing: the encoder is not traiined, only the head
         if self.freeze_encoder:
+            self.encoder.eval()  # keep BatchNorm/dropout layers in eval mode
             for p in self.encoder.parameters():
                 p.requires_grad = False
 

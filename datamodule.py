@@ -35,10 +35,7 @@ class MnistDataModule(pl.LightningDataModule):
         # Keep only n_train labeled images (simulates a small labeled dataset)
         if self.n_train is not None:
             self.train_ds = Subset(self.train_ds, range(self.n_train))
-        # change back
-        else:
-            subset_size = 8000
-            self.train_ds = Subset(self.train_ds, range(subset_size))
+
 
         self.test_ds = self.dataset_cls(
             root=self.data_dir,

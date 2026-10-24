@@ -2,7 +2,7 @@
 NUM_CLASSES = 10  # MNIST and Fashion-MNIST both have 10 classes (but different meanings!)
 LEARNING_RATE = 0.001
 BATCH_SIZE = 64
-NUM_EPOCHS = 3
+NUM_EPOCHS = 100
 
 # Dataset
 DATA_DIR = "dataset/"

@@ -25,7 +25,7 @@ MODES = ["pretrain", "linear_probe", "finetune", "end_to_end"]
 
 SOURCE_DATASET = "MNIST"
 TARGET_DATASET = "FashionMNIST"
-N_TARGET_TRAIN = 10  # labeled target images to train on (None = all 50,000)
+N_TARGET_TRAIN = 1000  # labeled target images to train on (None = all 50,000)
 TARGET_NUM_EPOCHS = 3  # small training set -> more epochs
 FINETUNE_LEARNING_RATE = 0.0001  # smaller lr, so we don't destroy the pretrained features
 ENCODER_PATH = "mnist_resnet18_encoder.pt"  # where step 1 saves the encoder

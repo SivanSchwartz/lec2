@@ -4,6 +4,7 @@ from model import NN
 from datamodule import MnistDataModule
 import config
 from callbacks import MyPrintingCallback, EarlyStopping
+from pytorch_lightning.callbacks import TQDMProgressBar
 from pytorch_lightning.loggers import TensorBoardLogger
 
 torch.set_float32_matmul_precision("medium") # to make lightning happy
@@ -46,7 +47,7 @@ def run(mode):
         min_epochs=1,
         max_epochs=num_epochs,
         precision=config.PRECISION,
-        callbacks=[MyPrintingCallback(), EarlyStopping(monitor="val_loss")],
+        callbacks=[MyPrintingCallback(), EarlyStopping(monitor="val_loss"), TQDMProgressBar(refresh_rate=20)],  # tqdm updates in place on Colab (Rich does not)
     )
 
     trainer.fit(model, dm)

@@ -37,7 +37,7 @@ class MnistDataModule(pl.LightningDataModule):
             self.train_ds = Subset(self.train_ds, range(self.n_train))
         # change back
         else:
-            subset_size = 20
+            subset_size = 8000
             self.train_ds = Subset(self.train_ds, range(subset_size))
 
         self.test_ds = self.dataset_cls(

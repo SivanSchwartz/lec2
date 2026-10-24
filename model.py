@@ -13,6 +13,7 @@ import torchvision
 class NN(pl.LightningModule):
     def __init__(self, learning_rate, num_classes, freeze_encoder=False):
         super().__init__()
+        self.save_hyperparameters()  # shows lr / freeze_encoder in TensorBoard's HPARAMS tab
         self.lr = learning_rate
         self.freeze_encoder = freeze_encoder
 
@@ -53,8 +54,8 @@ class NN(pl.LightningModule):
                 "train_accuracy": accuracy,
                 "train_f1_score": f1_score,
             },
-            on_step=False,
-            on_epoch=True,
+            on_step=True,   # curve that updates during training (x-axis = step)
+            on_epoch=True,  # one value per epoch
             prog_bar=True,
         )
         x,y = batch

@@ -1,19 +1,20 @@
+import time
 import torch
 import pytorch_lightning as pl
 from model import NN
 from datamodule import MnistDataModule
 import config
-from callbacks import MyPrintingCallback, EarlyStopping, ColabProgressBar
+from callbacks import MyPrintingCallback, EarlyStopping, ColabProgressBar, EpochMetricsCallback
 from pytorch_lightning.loggers import TensorBoardLogger
-
 torch.set_float32_matmul_precision("medium") # to make lightning happy
+RUN_ID = time.strftime("%Y-%m-%d_%H-%M-%S")
 
 
 def run(mode):
     """Train and evaluate one experiment. mode: see config.MODES."""
     pl.seed_everything(42)  # same initialization and data order -> fair comparison
 
-    logger = TensorBoardLogger("tb_logs", name=mode)
+    logger = TensorBoardLogger("tb_logs", name=RUN_ID, version=mode, default_hp_metric=False)
 
     model = NN(
         learning_rate=config.FINETUNE_LEARNING_RATE if mode == "finetune" else config.LEARNING_RATE,
@@ -46,7 +47,8 @@ def run(mode):
         min_epochs=1,
         max_epochs=num_epochs,
         precision=config.PRECISION,
-        callbacks=[MyPrintingCallback(), EarlyStopping(monitor="val_loss"), ColabProgressBar(refresh_rate=20)],
+        log_every_n_steps=10,  # default is 50: short runs would get no step points
+        callbacks=[MyPrintingCallback(), EarlyStopping(monitor="val_loss"), ColabProgressBar(refresh_rate=20), EpochMetricsCallback()],
     )
     print(model)
     print(f"Training mode is: {mode}, on {dataset_name} for {num_epochs} epochs, batch size {config.BATCH_SIZE}, n_train={n_train}")
